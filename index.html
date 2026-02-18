@@ -3,118 +3,177 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arrorro Foreverrr</title>
+<title>Nuestra App 💗</title>
 
 <style>
-body {
-    margin:0;
-    height:100vh;
-    overflow:hidden;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-family:'Segoe UI', sans-serif;
-    transition:background 1.5s ease;
+body{
+margin:0;
+height:100vh;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:'Segoe UI',sans-serif;
+transition:background 1.5s ease;
 }
 
-/* ICONO TIPO APP */
+/* PANTALLA HISTORIA */
+#inicio{
+position:fixed;
+width:100%;
+height:100%;
+background:linear-gradient(135deg,#ffb6ec,#b6d8ff);
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:10;
+color:white;
+text-align:center;
+padding:30px;
+}
+
+#inicio button{
+margin-top:20px;
+padding:15px 30px;
+border:none;
+border-radius:30px;
+background:white;
+font-size:18px;
+cursor:pointer;
+}
+
+/* ICONO */
 .app-icon{
-    position:absolute;
-    top:25px;
-    left:25px;
-    width:60px;
-    height:60px;
-    border-radius:18px;
-    background:linear-gradient(135deg,#ffb6ec,#b6d8ff);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-weight:bold;
-    font-size:22px;
-    color:white;
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+position:absolute;
+top:20px;
+left:20px;
+width:65px;
+height:65px;
+border-radius:20px;
+background:linear-gradient(135deg,#ff9de2,#9dd6ff);
+display:flex;
+justify-content:center;
+align-items:center;
+font-weight:bold;
+font-size:22px;
+color:white;
+box-shadow:0 15px 30px rgba(0,0,0,0.3);
 }
 
 /* CONTENEDOR */
 .container{
-    background:rgba(255,255,255,0.92);
-    padding:45px 60px;
-    border-radius:35px;
-    text-align:center;
-    box-shadow:0 30px 60px rgba(0,0,0,0.25);
-    animation:fadeIn 1.5s ease;
-    max-width:90%;
-    z-index:2;
+background:rgba(255,255,255,0.95);
+padding:45px;
+border-radius:35px;
+text-align:center;
+box-shadow:0 30px 60px rgba(0,0,0,0.25);
+max-width:90%;
+z-index:2;
+animation:fadeIn 1.5s ease;
 }
 
 h1{
-    font-size:26px;
-    min-height:70px;
-    transition:opacity 0.8s ease;
+font-size:24px;
+min-height:70px;
+transition:opacity 0.8s ease;
 }
 
-#hora,#ciudad{
-    font-size:14px;
-    opacity:0.7;
-}
-
-#iconoClima{
-    font-size:42px;
-    margin-top:10px;
+#contador{
+margin-top:10px;
+font-size:14px;
+opacity:0.8;
 }
 
 button{
-    margin-top:15px;
-    padding:8px 18px;
-    border:none;
-    border-radius:20px;
-    background:linear-gradient(135deg,#ffb6ec,#b6d8ff);
-    color:white;
-    cursor:pointer;
-}
-
-/* PARTICULAS */
-.particula{
-    position:absolute;
-    border-radius:50%;
-    opacity:0.7;
-    animation:caer linear infinite;
-}
-
-@keyframes caer{
-    from{transform:translateY(-10vh);}
-    to{transform:translateY(110vh);}
+margin-top:10px;
+padding:8px 18px;
+border:none;
+border-radius:20px;
+background:linear-gradient(135deg,#ffb6ec,#b6d8ff);
+color:white;
+cursor:pointer;
 }
 
 @keyframes fadeIn{
-    from{opacity:0; transform:translateY(40px);}
-    to{opacity:1; transform:translateY(0);}
+from{opacity:0;transform:translateY(40px);}
+to{opacity:1;transform:translateY(0);}
 }
 
+/* CARTA */
+#carta{
+position:fixed;
+bottom:-100%;
+left:0;
+width:100%;
+height:60%;
+background:white;
+border-top-left-radius:40px;
+border-top-right-radius:40px;
+box-shadow:0 -10px 40px rgba(0,0,0,0.3);
+transition:bottom 0.8s ease;
+padding:30px;
+overflow:auto;
+z-index:9;
+}
+
+/* ESTRELLAS */
+.estrella{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+animation:parpadear 2s infinite alternate;
+}
+
+@keyframes parpadear{
+from{opacity:0.2;}
+to{opacity:1;}
+}
+
+/* CORAZONES */
 .corazon{
-    position:absolute;
-    font-size:20px;
-    animation:flotar 2s ease forwards;
+position:absolute;
+font-size:20px;
+animation:flotar 2s ease forwards;
 }
 
 @keyframes flotar{
-    from{transform:translateY(0); opacity:1;}
-    to{transform:translateY(-100px); opacity:0;}
+from{transform:translateY(0);opacity:1;}
+to{transform:translateY(-100px);opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
+<div id="inicio">
+<h2>Hay algo especial para vos 💗</h2>
+<p>Cada día que pasa, esto crece un poquito más.</p>
+<button onclick="entrar()">Entrar</button>
+</div>
+
 <div class="app-icon">M&A</div>
 
 <div class="container">
-    <h1 id="mensaje">Cargando...</h1>
-    <div id="hora"></div>
-    <div id="ciudad"></div>
-    <div id="iconoClima"></div>
-    <div id="clima"></div>
-    <button onclick="toggleMusica()">🎵 Música</button>
+<h1 id="mensaje">Cargando...</h1>
+<div id="hora"></div>
+<div id="contador"></div>
+<div id="clima"></div>
+<button onclick="toggleMusica()">🎵 Música</button>
+<button onclick="abrirCarta()">💌 Carta</button>
+</div>
+
+<div id="carta">
+<h2>Para vos 💖</h2>
+<p>
+Desde el 30 de enero del 2026 cambió todo.
+No sé si el mundo se volvió más bonito,
+o si simplemente empecé a mirarlo con tus ojos.
+Gracias por existir.
+Siempre vos.
+</p>
+<button onclick="cerrarCarta()">Cerrar</button>
 </div>
 
 <audio id="musica" loop>
@@ -123,144 +182,78 @@ button{
 
 <script>
 
-// Hora
+// ENTRAR
+function entrar(){
+document.getElementById("inicio").style.display="none";
+}
+
+// HORA + MODO NOCTURNO + ESTRELLAS
 function actualizarHora(){
-    document.getElementById("hora").textContent=new Date().toLocaleString();
+const ahora=new Date();
+document.getElementById("hora").textContent=ahora.toLocaleString();
+
+if(ahora.getHours()>=20||ahora.getHours()<6){
+document.body.style.background="linear-gradient(135deg,#0f2027,#203a43,#2c5364)";
+crearEstrellas();
+}
 }
 setInterval(actualizarHora,1000);
 actualizarHora();
 
-// Música
-function toggleMusica(){
-    const m=document.getElementById("musica");
-    if(m.paused){m.play();}
-    else{m.pause();}
+// CONTADOR DESDE 30 ENERO 2026
+const fechaInicio=new Date("2026-01-30");
+function actualizarContador(){
+const hoy=new Date();
+const dias=Math.floor((hoy-fechaInicio)/(1000*60*60*24));
+document.getElementById("contador").textContent=
+`Llevamos ${dias} días juntos 💕`;
 }
+actualizarContador();
 
-// Corazones al tocar
-document.body.addEventListener("click",e=>{
-    const heart=document.createElement("div");
-    heart.className="corazon";
-    heart.textContent="💗";
-    heart.style.left=e.clientX+"px";
-    heart.style.top=e.clientY+"px";
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),2000);
-});
-
-// Clima
-if(navigator.geolocation){
-navigator.geolocation.getCurrentPosition(pos=>{
-
-const lat=pos.coords.latitude;
-const lon=pos.coords.longitude;
-
-fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
-.then(res=>res.json())
-.then(data=>{
-
-const temp=data.current_weather.temperature;
-const weatherCode=data.current_weather.weathercode;
-
-document.getElementById("clima").textContent=`${temp}°C`;
-document.getElementById("iconoClima").textContent=obtenerIcono(weatherCode);
-
-fetch(`https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}`)
-.then(res=>res.json())
-.then(loc=>{
-if(loc.address.city)
-document.getElementById("ciudad").textContent=loc.address.city;
-});
-
-configurarAmbiente(temp,weatherCode);
-
-});
-});
-}
-
-// ICONOS
-function obtenerIcono(code){
-if(code<3) return "☀️";
-if(code<50) return "🌤️";
-if(code<70) return "🌧️";
-if(code<80) return "🌨️";
-return "☁️";
-}
-
-// MENSAJES Y AMBIENTE
-let mensajes=[];
-function configurarAmbiente(temp,code){
-
-if(code<3){ // Soleado
-document.body.style.background="linear-gradient(135deg,#ffd3a5,#fd6585)";
-mensajes=[
-"El sol brilla… pero vos brillás más.",
-"Hoy el cielo está alegre, como cuando te veo sonreír.",
-"Si el día está radiante, es porque pensó en vos."
-];
-crearParticulas("sol");
-}
-else if(code<50){ // Nublado
-document.body.style.background="linear-gradient(135deg,#bdc3c7,#2c3e50)";
-mensajes=[
-"Aunque el cielo esté gris, lo nuestro tiene color.",
-"Los días nublados me recuerdan lo profundo que es lo que siento.",
-"Si el mundo se pone oscuro, yo soy tu luz."
-];
-crearParticulas("nube");
-}
-else if(code<70){ // Lluvia
-document.body.style.background="linear-gradient(135deg,#4e73df,#1cc88a)";
-mensajes=[
-"Si llueve, estoy para abrazarte fuerte.",
-"Que la lluvia caiga… yo me quedo cuidándote.",
-"Entre gotas y tormentas, siempre estoy para vos."
-];
-crearParticulas("lluvia");
-}
-else{ // Frío / nieve
-document.body.style.background="linear-gradient(135deg,#a1c4fd,#c2e9fb)";
-mensajes=[
-"Si hace frío, te abrigo con mi amor.",
-"El invierno es más suave si estoy con vos.",
-"Que el frío venga… yo te abrazo más fuerte."
-];
-crearParticulas("nieve");
-}
-
-cambiarMensaje();
-setInterval(cambiarMensaje,10000);
-}
-
-function cambiarMensaje(){
-const m=document.getElementById("mensaje");
-m.style.opacity=0;
+// SORPRESA CADA DÍA 30
+if(new Date().getDate()===30){
 setTimeout(()=>{
-m.textContent=mensajes[Math.floor(Math.random()*mensajes.length)];
-m.style.opacity=1;
-},500);
+alert("Otro mes más desde que empezó lo nuestro 💖");
+},2000);
 }
 
-// Partículas
-function crearParticulas(tipo){
-for(let i=0;i<35;i++){
-const p=document.createElement("div");
-p.className="particula";
-p.style.width=Math.random()*6+4+"px";
-p.style.height=p.style.width;
-p.style.left=Math.random()*100+"vw";
-p.style.animationDuration=Math.random()*5+5+"s";
+// MÚSICA
+function toggleMusica(){
+const m=document.getElementById("musica");
+m.paused?m.play():m.pause();
+}
 
-if(tipo==="sol") p.style.background="rgba(255,255,0,0.7)";
-if(tipo==="nube") p.style.background="rgba(255,255,255,0.4)";
-if(tipo==="lluvia") p.style.background="rgba(173,216,230,0.8)";
-if(tipo==="nieve") p.style.background="white";
+// CARTA
+function abrirCarta(){
+document.getElementById("carta").style.bottom="0";
+}
+function cerrarCarta(){
+document.getElementById("carta").style.bottom="-100%";
+}
 
-document.body.appendChild(p);
+// CORAZONES
+document.body.addEventListener("click",e=>{
+const heart=document.createElement("div");
+heart.className="corazon";
+heart.textContent="💗";
+heart.style.left=e.clientX+"px";
+heart.style.top=e.clientY+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),2000);
+});
+
+// ESTRELLAS
+function crearEstrellas(){
+for(let i=0;i<80;i++){
+const star=document.createElement("div");
+star.className="estrella";
+star.style.left=Math.random()*100+"vw";
+star.style.top=Math.random()*100+"vh";
+document.body.appendChild(star);
 }
 }
 
 </script>
+
 </body>
 </html>
-
