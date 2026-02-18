@@ -1,0 +1,8 @@
+{
+  "name": "Arrorro Forever",
+  "short_name": "S&M",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffd6ec",
+  "theme_color": "#ffd6ec"
+}
