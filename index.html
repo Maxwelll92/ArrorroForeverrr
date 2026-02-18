@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nuestra App 💗</title>
 
+<!-- Tipografía elegante -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+
 <style>
 body{
 margin:0;
@@ -13,44 +16,52 @@ overflow:hidden;
 display:flex;
 justify-content:center;
 align-items:center;
-font-family:'Segoe UI',sans-serif;
+font-family:'Montserrat',sans-serif;
 transition:background 1.5s ease;
 }
 
-/* PANTALLA HISTORIA */
+/* INTRO CINEMÁTICA */
 #inicio{
 position:fixed;
 width:100%;
 height:100%;
-background:linear-gradient(135deg,#ffb6ec,#b6d8ff);
+background:black;
+color:white;
 display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
-z-index:10;
-color:white;
+z-index:20;
+animation:fadeIn 2s ease;
 text-align:center;
 padding:30px;
 }
 
+#inicio h2{
+font-family:'Playfair Display',serif;
+font-size:28px;
+letter-spacing:2px;
+}
+
 #inicio button{
-margin-top:20px;
-padding:15px 30px;
+margin-top:30px;
+padding:15px 35px;
 border:none;
-border-radius:30px;
-background:white;
-font-size:18px;
+border-radius:40px;
+background:linear-gradient(135deg,#ffb6ec,#b6d8ff);
+color:white;
+font-size:16px;
 cursor:pointer;
 }
 
-/* ICONO */
+/* ICONO APP */
 .app-icon{
 position:absolute;
 top:20px;
 left:20px;
-width:65px;
-height:65px;
-border-radius:20px;
+width:70px;
+height:70px;
+border-radius:22px;
 background:linear-gradient(135deg,#ff9de2,#9dd6ff);
 display:flex;
 justify-content:center;
@@ -61,11 +72,12 @@ color:white;
 box-shadow:0 15px 30px rgba(0,0,0,0.3);
 }
 
-/* CONTENEDOR */
+/* CONTENEDOR PRINCIPAL */
 .container{
-background:rgba(255,255,255,0.95);
-padding:45px;
-border-radius:35px;
+background:rgba(255,255,255,0.85);
+backdrop-filter:blur(15px);
+padding:50px;
+border-radius:40px;
 text-align:center;
 box-shadow:0 30px 60px rgba(0,0,0,0.25);
 max-width:90%;
@@ -73,21 +85,28 @@ z-index:2;
 animation:fadeIn 1.5s ease;
 }
 
+/* MENSAJE */
 h1{
-font-size:24px;
-min-height:70px;
+font-family:'Playfair Display',serif;
+font-size:26px;
+min-height:80px;
 transition:opacity 0.8s ease;
 }
 
-#contador{
-margin-top:10px;
+/* WIDGET CONTADOR */
+#widget{
+margin-top:15px;
+padding:10px 20px;
+border-radius:25px;
+background:linear-gradient(135deg,#ffd6f5,#d6f0ff);
+display:inline-block;
 font-size:14px;
-opacity:0.8;
 }
 
+/* BOTONES */
 button{
-margin-top:10px;
-padding:8px 18px;
+margin-top:12px;
+padding:8px 20px;
 border:none;
 border-radius:20px;
 background:linear-gradient(135deg,#ffb6ec,#b6d8ff);
@@ -95,43 +114,51 @@ color:white;
 cursor:pointer;
 }
 
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(40px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-/* CARTA */
+/* CARTA PASTEL */
 #carta{
 position:fixed;
 bottom:-100%;
 left:0;
 width:100%;
-height:60%;
-background:white;
-border-top-left-radius:40px;
-border-top-right-radius:40px;
-box-shadow:0 -10px 40px rgba(0,0,0,0.3);
+height:65%;
+background:linear-gradient(135deg,rgba(255,182,236,0.6),rgba(182,216,255,0.6));
+backdrop-filter:blur(20px);
+border-top-left-radius:50px;
+border-top-right-radius:50px;
+box-shadow:0 -15px 50px rgba(0,0,0,0.3);
 transition:bottom 0.8s ease;
+padding:40px;
+overflow:auto;
+z-index:15;
+font-family:'Playfair Display',serif;
+}
+
+/* GALERÍA */
+#galeria{
+position:fixed;
+right:-100%;
+top:0;
+width:70%;
+height:100%;
+background:white;
+transition:right 0.8s ease;
 padding:30px;
 overflow:auto;
-z-index:9;
+z-index:14;
 }
 
-/* ESTRELLAS */
-.estrella{
-position:absolute;
-width:2px;
-height:2px;
-background:white;
-animation:parpadear 2s infinite alternate;
+#galeria img{
+width:100%;
+border-radius:20px;
+margin-bottom:15px;
 }
 
-@keyframes parpadear{
-from{opacity:0.2;}
+/* ANIMACIONES */
+@keyframes fadeIn{
+from{opacity:0;}
 to{opacity:1;}
 }
 
-/* CORAZONES */
 .corazon{
 position:absolute;
 font-size:20px;
@@ -140,7 +167,7 @@ animation:flotar 2s ease forwards;
 
 @keyframes flotar{
 from{transform:translateY(0);opacity:1;}
-to{transform:translateY(-100px);opacity:0;}
+to{transform:translateY(-120px);opacity:0;}
 }
 </style>
 </head>
@@ -148,8 +175,8 @@ to{transform:translateY(-100px);opacity:0;}
 <body>
 
 <div id="inicio">
-<h2>Hay algo especial para vos 💗</h2>
-<p>Cada día que pasa, esto crece un poquito más.</p>
+<h2>Nuestra Historia 💫</h2>
+<p>Todo empezó el 30 de enero del 2026…</p>
 <button onclick="entrar()">Entrar</button>
 </div>
 
@@ -157,23 +184,35 @@ to{transform:translateY(-100px);opacity:0;}
 
 <div class="container">
 <h1 id="mensaje">Cargando...</h1>
-<div id="hora"></div>
-<div id="contador"></div>
+<div id="widget"></div>
+<div id="ciudad"></div>
 <div id="clima"></div>
 <button onclick="toggleMusica()">🎵 Música</button>
 <button onclick="abrirCarta()">💌 Carta</button>
+<button onclick="abrirGaleria()">📸 Fotos</button>
 </div>
 
 <div id="carta">
 <h2>Para vos 💖</h2>
 <p>
-Desde el 30 de enero del 2026 cambió todo.
-No sé si el mundo se volvió más bonito,
-o si simplemente empecé a mirarlo con tus ojos.
-Gracias por existir.
+Desde el 30 de enero del 2026 algo cambió.
+No fue el mundo…
+fue mi forma de sentirlo.
+Si el cielo se nubla, te acompaño.
+Si llueve, te abrazo.
+Si hace frío, te cuido.
+Si el sol brilla, brillamos juntos.
 Siempre vos.
 </p>
 <button onclick="cerrarCarta()">Cerrar</button>
+</div>
+
+<div id="galeria">
+<h2>Nuestros Recuerdos 📸</h2>
+<img src="foto1.jpg">
+<img src="foto2.jpg">
+<img src="foto3.jpg">
+<button onclick="cerrarGaleria()">Cerrar</button>
 </div>
 
 <audio id="musica" loop>
@@ -187,49 +226,15 @@ function entrar(){
 document.getElementById("inicio").style.display="none";
 }
 
-// HORA + MODO NOCTURNO + ESTRELLAS
-function actualizarHora(){
-const ahora=new Date();
-document.getElementById("hora").textContent=ahora.toLocaleString();
-
-if(ahora.getHours()>=20||ahora.getHours()<6){
-document.body.style.background="linear-gradient(135deg,#0f2027,#203a43,#2c5364)";
-crearEstrellas();
-}
-}
-setInterval(actualizarHora,1000);
-actualizarHora();
-
-// CONTADOR DESDE 30 ENERO 2026
+// CONTADOR
 const fechaInicio=new Date("2026-01-30");
 function actualizarContador(){
 const hoy=new Date();
 const dias=Math.floor((hoy-fechaInicio)/(1000*60*60*24));
-document.getElementById("contador").textContent=
-`Llevamos ${dias} días juntos 💕`;
+document.getElementById("widget").textContent=
+`💗 ${dias} días juntos`;
 }
 actualizarContador();
-
-// SORPRESA CADA DÍA 30
-if(new Date().getDate()===30){
-setTimeout(()=>{
-alert("Otro mes más desde que empezó lo nuestro 💖");
-},2000);
-}
-
-// MÚSICA
-function toggleMusica(){
-const m=document.getElementById("musica");
-m.paused?m.play():m.pause();
-}
-
-// CARTA
-function abrirCarta(){
-document.getElementById("carta").style.bottom="0";
-}
-function cerrarCarta(){
-document.getElementById("carta").style.bottom="-100%";
-}
 
 // CORAZONES
 document.body.addEventListener("click",e=>{
@@ -242,18 +247,28 @@ document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),2000);
 });
 
-// ESTRELLAS
-function crearEstrellas(){
-for(let i=0;i<80;i++){
-const star=document.createElement("div");
-star.className="estrella";
-star.style.left=Math.random()*100+"vw";
-star.style.top=Math.random()*100+"vh";
-document.body.appendChild(star);
+// CARTA
+function abrirCarta(){
+document.getElementById("carta").style.bottom="0";
 }
+function cerrarCarta(){
+document.getElementById("carta").style.bottom="-100%";
+}
+
+// GALERÍA
+function abrirGaleria(){
+document.getElementById("galeria").style.right="0";
+}
+function cerrarGaleria(){
+document.getElementById("galeria").style.right="-100%";
+}
+
+// MÚSICA
+function toggleMusica(){
+const m=document.getElementById("musica");
+m.paused?m.play():m.pause();
 }
 
 </script>
-
 </body>
 </html>
