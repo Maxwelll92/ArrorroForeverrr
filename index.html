@@ -1,202 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nuestra App 💗</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
-
-<style>
-body{
-margin:0;
-height:100vh;
-overflow:hidden;
-display:flex;
-justify-content:center;
-align-items:center;
-font-family:'Montserrat',sans-serif;
-transition:background 1.5s ease;
-}
-
-/* INTRO */
-#inicio{
-position:fixed;
-width:100%;
-height:100%;
-background:black;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:20;
-text-align:center;
-padding:30px;
-}
-
-#inicio h2{
-font-family:'Playfair Display',serif;
-font-size:28px;
-letter-spacing:2px;
-}
-
-#inicio button{
-margin-top:30px;
-padding:15px 35px;
-border:none;
-border-radius:40px;
-background:linear-gradient(135deg,#ffb6ec,#b6d8ff);
-color:white;
-font-size:16px;
-cursor:pointer;
-}
-
-.app-icon{
-position:absolute;
-top:20px;
-left:20px;
-width:70px;
-height:70px;
-border-radius:22px;
-background:linear-gradient(135deg,#ff9de2,#9dd6ff);
-display:flex;
-justify-content:center;
-align-items:center;
-font-weight:bold;
-font-size:22px;
-color:white;
-box-shadow:0 15px 30px rgba(0,0,0,0.3);
-}
-
-.container{
-background:rgba(255,255,255,0.85);
-backdrop-filter:blur(15px);
-padding:50px;
-border-radius:40px;
-text-align:center;
-box-shadow:0 30px 60px rgba(0,0,0,0.25);
-max-width:90%;
-z-index:2;
-}
-
-h1{
-font-family:'Playfair Display',serif;
-font-size:26px;
-min-height:80px;
-}
-
-#widget{
-margin-top:15px;
-padding:10px 20px;
-border-radius:25px;
-background:linear-gradient(135deg,#ffd6f5,#d6f0ff);
-display:inline-block;
-font-size:14px;
-}
-
-button{
-margin-top:12px;
-padding:8px 20px;
-border:none;
-border-radius:20px;
-background:linear-gradient(135deg,#ffb6ec,#b6d8ff);
-color:white;
-cursor:pointer;
-}
-
-#carta{
-position:fixed;
-bottom:-100%;
-left:0;
-width:100%;
-height:65%;
-background:linear-gradient(135deg,rgba(255,182,236,0.6),rgba(182,216,255,0.6));
-backdrop-filter:blur(20px);
-border-top-left-radius:50px;
-border-top-right-radius:50px;
-transition:bottom 0.8s ease;
-padding:40px;
-overflow:auto;
-z-index:15;
-font-family:'Playfair Display',serif;
-}
-
-#galeria{
-position:fixed;
-right:-100%;
-top:0;
-width:70%;
-height:100%;
-background:white;
-transition:right 0.8s ease;
-padding:30px;
-overflow:auto;
-z-index:14;
-}
-
-#galeria img{
-width:100%;
-border-radius:20px;
-margin-bottom:15px;
-}
-
-#musicaBox{
-margin-top:20px;
-}
-
-</style>
-</head>
-
-<body>
-
-<div id="inicio">
-<h2>Nuestra Historia 💫</h2>
-<p>Todo empezó el 30 de enero del 2026…</p>
-<button onclick="entrar()">Entrar</button>
-</div>
-
-<div class="app-icon">M&A</div>
-
-<div class="container">
-<h1 id="mensaje">Cargando...</h1>
-<div id="widget"></div>
-<div id="ciudad"></div>
-<div id="clima"></div>
-
-<div id="musicaBox">
-<h3 id="tituloMusica"></h3>
-<div id="spotifyPlayer"></div>
-<button onclick="cambiarPlaylist()">🔄 Cambiar vibra</button>
-</div>
-
-<button onclick="abrirCarta()">💌 Carta</button>
-<button onclick="abrirGaleria()">📸 Fotos</button>
-</div>
-
-<div id="carta">
-<h2>Para vos 💖</h2>
-<p>
-Desde el 30 de enero del 2026 algo cambió.
-No fue el mundo…
-fue mi forma de sentirlo.
-Si el cielo se nubla, te acompaño.
-Si llueve, te abrazo.
-Si hace frío, te cuido.
-Si el sol brilla, brillamos juntos.
-Siempre vos.
-</p>
-<button onclick="cerrarCarta()">Cerrar</button>
-</div>
-
-<div id="galeria">
-<h2>Nuestros Recuerdos 📸</h2>
-<img src="foto1.jpg">
-<img src="foto2.jpg">
-<img src="foto3.jpg">
-<button onclick="cerrarGaleria()">Cerrar</button>
-</div>
-
 <script>
 
 // INTRO
@@ -209,105 +10,112 @@ const fechaInicio=new Date("2026-01-30");
 function actualizarContador(){
 const hoy=new Date();
 const dias=Math.floor((hoy-fechaInicio)/(1000*60*60*24));
-document.getElementById("widget").textContent=`💗 ${dias} días juntos`;
+document.getElementById("widget").textContent=
+`💗 ${dias} días juntos`;
 }
 actualizarContador();
 
-// UBICACIÓN
+// DETECTAR UBICACIÓN
 async function obtenerUbicacion(){
 const res=await fetch("https://ipapi.co/json/");
 const data=await res.json();
-document.getElementById("ciudad").textContent=`📍 ${data.city}, ${data.country_name}`;
+document.getElementById("ciudad").textContent=
+`📍 ${data.city}, ${data.country_name}`;
 obtenerClima(data.latitude,data.longitude);
 }
 
+// OBTENER CLIMA
 async function obtenerClima(lat,lon){
-const res=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+const res=await fetch(
+`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
+);
 const data=await res.json();
 const temp=data.current_weather.temperature;
 const code=data.current_weather.weathercode;
 
-document.getElementById("clima").textContent=`🌡 ${temp}°C`;
+let mensaje="";
 
-definirCategoria(code);
-}
-
-obtenerUbicacion();
-
-// PLAYLISTS
-const playlists={
-soleado:[
-"https://open.spotify.com/embed/playlist/37i9dQZF1DX3oM43CtKnRV",
-"https://open.spotify.com/embed/playlist/37i9dQZF1DX1rVvRgjX59F"
-],
-lluvia:[
-"https://open.spotify.com/embed/playlist/37i9dQZF1DX7qK8ma5wgG1",
-"https://open.spotify.com/embed/playlist/37i9dQZF1DWVV27DiNWxkR"
-],
-frio:[
-"https://open.spotify.com/embed/playlist/37i9dQZF1DX889U0CL85jj",
-"https://open.spotify.com/embed/playlist/37i9dQZF1DX2sUQwD7tbmL"
-],
-noche:[
-"https://open.spotify.com/embed/playlist/37i9dQZF1DX6VdMW310YC7",
-"https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO"
-]
-};
-
-let categoriaActual="soleado";
-let indicePlaylist=0;
-
-function definirCategoria(code){
-const hora=new Date().getHours();
-if(hora>=21||hora<=5){
-categoriaActual="noche";
+if(code<3){
+mensaje="Hoy el sol brilla… pero no tanto como vos.";
+document.body.style.background="linear-gradient(135deg,#ffeaa7,#fab1a0)";
+crearParticulas("☀️");
 }
 else if(code<50){
-categoriaActual="soleado";
-}
-else if(code<70){
-categoriaActual="lluvia";
+mensaje="Si el cielo está nublado, igual yo estoy acá para iluminarte.";
+document.body.style.background="linear-gradient(135deg,#dfe6e9,#b2bec3)";
+crearParticulas("☁️");
 }
 else{
-categoriaActual="frio";
-}
-indicePlaylist=0;
-cargarPlaylist();
-}
-
-function cargarPlaylist(){
-const url=playlists[categoriaActual][indicePlaylist];
-document.getElementById("tituloMusica").textContent="🎧 Vibra del momento";
-document.getElementById("spotifyPlayer").innerHTML=
-`<iframe style="border-radius:12px"
-src="${url}"
-width="100%" height="100"
-frameBorder="0"
-allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-</iframe>`;
+mensaje="Si hoy llueve, que sea excusa para abrazarte más fuerte.";
+document.body.style.background="linear-gradient(135deg,#74b9ff,#0984e3)";
+crearParticulas("🌧️");
 }
 
-function cambiarPlaylist(){
-indicePlaylist++;
-if(indicePlaylist>=playlists[categoriaActual].length){
-indicePlaylist=0;
-}
-cargarPlaylist();
+escribirMensaje(mensaje);
+document.getElementById("clima").textContent=
+`🌡 ${temp}°C`;
 }
 
-// CORAZONES
+// EFECTO ESCRITURA
+function escribirMensaje(texto){
+let i=0;
+const elemento=document.getElementById("mensaje");
+elemento.textContent="";
+const intervalo=setInterval(()=>{
+elemento.textContent+=texto.charAt(i);
+i++;
+if(i>=texto.length) clearInterval(intervalo);
+},40);
+}
+
+// PARTÍCULAS
+function crearParticulas(simbolo){
+setInterval(()=>{
+const p=document.createElement("div");
+p.textContent=simbolo;
+p.style.position="absolute";
+p.style.left=Math.random()*100+"vw";
+p.style.top="100vh";
+p.style.fontSize="20px";
+p.style.animation="flotar 4s linear forwards";
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),4000);
+},800);
+}
+
+// CORAZONES CLICK
 document.body.addEventListener("click",e=>{
 const heart=document.createElement("div");
 heart.className="corazon";
 heart.textContent="💗";
 heart.style.left=e.clientX+"px";
 heart.style.top=e.clientY+"px";
-heart.style.position="absolute";
-heart.style.animation="flotar 2s ease forwards";
 document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),2000);
 });
 
+// CARTA
+function abrirCarta(){
+document.getElementById("carta").style.bottom="0";
+}
+function cerrarCarta(){
+document.getElementById("carta").style.bottom="-100%";
+}
+
+// GALERÍA
+function abrirGaleria(){
+document.getElementById("galeria").style.right="0";
+}
+function cerrarGaleria(){
+document.getElementById("galeria").style.right="-100%";
+}
+
+// MÚSICA
+function toggleMusica(){
+const m=document.getElementById("musica");
+m.paused?m.play():m.pause();
+}
+
+obtenerUbicacion();
+
 </script>
-</body>
-</html>
