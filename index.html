@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nuestra App 💗</title>
 
-<!-- Tipografía elegante -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
@@ -20,7 +19,7 @@ font-family:'Montserrat',sans-serif;
 transition:background 1.5s ease;
 }
 
-/* INTRO CINEMÁTICA */
+/* INTRO */
 #inicio{
 position:fixed;
 width:100%;
@@ -32,7 +31,6 @@ justify-content:center;
 align-items:center;
 flex-direction:column;
 z-index:20;
-animation:fadeIn 2s ease;
 text-align:center;
 padding:30px;
 }
@@ -54,7 +52,6 @@ font-size:16px;
 cursor:pointer;
 }
 
-/* ICONO APP */
 .app-icon{
 position:absolute;
 top:20px;
@@ -72,7 +69,6 @@ color:white;
 box-shadow:0 15px 30px rgba(0,0,0,0.3);
 }
 
-/* CONTENEDOR PRINCIPAL */
 .container{
 background:rgba(255,255,255,0.85);
 backdrop-filter:blur(15px);
@@ -82,18 +78,14 @@ text-align:center;
 box-shadow:0 30px 60px rgba(0,0,0,0.25);
 max-width:90%;
 z-index:2;
-animation:fadeIn 1.5s ease;
 }
 
-/* MENSAJE */
 h1{
 font-family:'Playfair Display',serif;
 font-size:26px;
 min-height:80px;
-transition:opacity 0.8s ease;
 }
 
-/* WIDGET CONTADOR */
 #widget{
 margin-top:15px;
 padding:10px 20px;
@@ -103,7 +95,6 @@ display:inline-block;
 font-size:14px;
 }
 
-/* BOTONES */
 button{
 margin-top:12px;
 padding:8px 20px;
@@ -114,7 +105,6 @@ color:white;
 cursor:pointer;
 }
 
-/* CARTA PASTEL */
 #carta{
 position:fixed;
 bottom:-100%;
@@ -125,7 +115,6 @@ background:linear-gradient(135deg,rgba(255,182,236,0.6),rgba(182,216,255,0.6));
 backdrop-filter:blur(20px);
 border-top-left-radius:50px;
 border-top-right-radius:50px;
-box-shadow:0 -15px 50px rgba(0,0,0,0.3);
 transition:bottom 0.8s ease;
 padding:40px;
 overflow:auto;
@@ -133,7 +122,6 @@ z-index:15;
 font-family:'Playfair Display',serif;
 }
 
-/* GALERÍA */
 #galeria{
 position:fixed;
 right:-100%;
@@ -153,22 +141,10 @@ border-radius:20px;
 margin-bottom:15px;
 }
 
-/* ANIMACIONES */
-@keyframes fadeIn{
-from{opacity:0;}
-to{opacity:1;}
+#musicaBox{
+margin-top:20px;
 }
 
-.corazon{
-position:absolute;
-font-size:20px;
-animation:flotar 2s ease forwards;
-}
-
-@keyframes flotar{
-from{transform:translateY(0);opacity:1;}
-to{transform:translateY(-120px);opacity:0;}
-}
 </style>
 </head>
 
@@ -187,7 +163,13 @@ to{transform:translateY(-120px);opacity:0;}
 <div id="widget"></div>
 <div id="ciudad"></div>
 <div id="clima"></div>
-<button onclick="toggleMusica()">🎵 Música</button>
+
+<div id="musicaBox">
+<h3 id="tituloMusica"></h3>
+<div id="spotifyPlayer"></div>
+<button onclick="cambiarPlaylist()">🔄 Cambiar vibra</button>
+</div>
+
 <button onclick="abrirCarta()">💌 Carta</button>
 <button onclick="abrirGaleria()">📸 Fotos</button>
 </div>
@@ -215,13 +197,9 @@ Siempre vos.
 <button onclick="cerrarGaleria()">Cerrar</button>
 </div>
 
-<audio id="musica" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3" type="audio/mpeg">
-</audio>
-
 <script>
 
-// ENTRAR
+// INTRO
 function entrar(){
 document.getElementById("inicio").style.display="none";
 }
@@ -231,10 +209,91 @@ const fechaInicio=new Date("2026-01-30");
 function actualizarContador(){
 const hoy=new Date();
 const dias=Math.floor((hoy-fechaInicio)/(1000*60*60*24));
-document.getElementById("widget").textContent=
-`💗 ${dias} días juntos`;
+document.getElementById("widget").textContent=`💗 ${dias} días juntos`;
 }
 actualizarContador();
+
+// UBICACIÓN
+async function obtenerUbicacion(){
+const res=await fetch("https://ipapi.co/json/");
+const data=await res.json();
+document.getElementById("ciudad").textContent=`📍 ${data.city}, ${data.country_name}`;
+obtenerClima(data.latitude,data.longitude);
+}
+
+async function obtenerClima(lat,lon){
+const res=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+const data=await res.json();
+const temp=data.current_weather.temperature;
+const code=data.current_weather.weathercode;
+
+document.getElementById("clima").textContent=`🌡 ${temp}°C`;
+
+definirCategoria(code);
+}
+
+obtenerUbicacion();
+
+// PLAYLISTS
+const playlists={
+soleado:[
+"https://open.spotify.com/embed/playlist/37i9dQZF1DX3oM43CtKnRV",
+"https://open.spotify.com/embed/playlist/37i9dQZF1DX1rVvRgjX59F"
+],
+lluvia:[
+"https://open.spotify.com/embed/playlist/37i9dQZF1DX7qK8ma5wgG1",
+"https://open.spotify.com/embed/playlist/37i9dQZF1DWVV27DiNWxkR"
+],
+frio:[
+"https://open.spotify.com/embed/playlist/37i9dQZF1DX889U0CL85jj",
+"https://open.spotify.com/embed/playlist/37i9dQZF1DX2sUQwD7tbmL"
+],
+noche:[
+"https://open.spotify.com/embed/playlist/37i9dQZF1DX6VdMW310YC7",
+"https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO"
+]
+};
+
+let categoriaActual="soleado";
+let indicePlaylist=0;
+
+function definirCategoria(code){
+const hora=new Date().getHours();
+if(hora>=21||hora<=5){
+categoriaActual="noche";
+}
+else if(code<50){
+categoriaActual="soleado";
+}
+else if(code<70){
+categoriaActual="lluvia";
+}
+else{
+categoriaActual="frio";
+}
+indicePlaylist=0;
+cargarPlaylist();
+}
+
+function cargarPlaylist(){
+const url=playlists[categoriaActual][indicePlaylist];
+document.getElementById("tituloMusica").textContent="🎧 Vibra del momento";
+document.getElementById("spotifyPlayer").innerHTML=
+`<iframe style="border-radius:12px"
+src="${url}"
+width="100%" height="100"
+frameBorder="0"
+allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+</iframe>`;
+}
+
+function cambiarPlaylist(){
+indicePlaylist++;
+if(indicePlaylist>=playlists[categoriaActual].length){
+indicePlaylist=0;
+}
+cargarPlaylist();
+}
 
 // CORAZONES
 document.body.addEventListener("click",e=>{
@@ -243,31 +302,11 @@ heart.className="corazon";
 heart.textContent="💗";
 heart.style.left=e.clientX+"px";
 heart.style.top=e.clientY+"px";
+heart.style.position="absolute";
+heart.style.animation="flotar 2s ease forwards";
 document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),2000);
 });
-
-// CARTA
-function abrirCarta(){
-document.getElementById("carta").style.bottom="0";
-}
-function cerrarCarta(){
-document.getElementById("carta").style.bottom="-100%";
-}
-
-// GALERÍA
-function abrirGaleria(){
-document.getElementById("galeria").style.right="0";
-}
-function cerrarGaleria(){
-document.getElementById("galeria").style.right="-100%";
-}
-
-// MÚSICA
-function toggleMusica(){
-const m=document.getElementById("musica");
-m.paused?m.play():m.pause();
-}
 
 </script>
 </body>
