@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Shaiel 💌</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ffd6ec, #d6f0ff);
+    overflow: hidden;
+    text-align: center;
+}
+
+.container {
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.35);
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+h1 {
+    font-weight: 500;
+}
+
+.weatherEffect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="weatherEffect" id="weatherEffect"></div>
+
+<div class="container">
+    <h1 id="message">Cargando magia...</h1>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
