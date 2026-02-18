@@ -7,168 +7,260 @@
 
 <style>
 body {
-    margin: 0;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    transition: background 1s ease;
+    margin:0;
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Segoe UI', sans-serif;
+    transition:background 1.5s ease;
 }
 
-.container {
-    background: rgba(255,255,255,0.9);
-    padding: 40px 60px;
-    border-radius: 30px;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    animation: fadeIn 1.5s ease;
-    position: relative;
-    z-index: 2;
+/* ICONO TIPO APP */
+.app-icon{
+    position:absolute;
+    top:25px;
+    left:25px;
+    width:60px;
+    height:60px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#ffb6ec,#b6d8ff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    font-size:22px;
+    color:white;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
-h1 {
-    font-size: 30px;
-    margin-bottom: 15px;
+/* CONTENEDOR */
+.container{
+    background:rgba(255,255,255,0.92);
+    padding:45px 60px;
+    border-radius:35px;
+    text-align:center;
+    box-shadow:0 30px 60px rgba(0,0,0,0.25);
+    animation:fadeIn 1.5s ease;
+    max-width:90%;
+    z-index:2;
 }
 
-#hora {
-    font-size: 15px;
-    opacity: 0.7;
-    margin-bottom: 10px;
+h1{
+    font-size:26px;
+    min-height:70px;
+    transition:opacity 0.8s ease;
 }
 
-#clima {
-    font-weight: bold;
-    margin-top: 10px;
+#hora,#ciudad{
+    font-size:14px;
+    opacity:0.7;
 }
 
-#icono {
-    font-size: 40px;
-    margin-top: 10px;
+#iconoClima{
+    font-size:42px;
+    margin-top:10px;
 }
 
-.particula {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.6;
-    animation: flotar linear infinite;
+button{
+    margin-top:15px;
+    padding:8px 18px;
+    border:none;
+    border-radius:20px;
+    background:linear-gradient(135deg,#ffb6ec,#b6d8ff);
+    color:white;
+    cursor:pointer;
 }
 
-@keyframes flotar {
-    from { transform: translateY(-10vh); }
-    to { transform: translateY(110vh); }
+/* PARTICULAS */
+.particula{
+    position:absolute;
+    border-radius:50%;
+    opacity:0.7;
+    animation:caer linear infinite;
 }
 
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(30px);}
-    to {opacity: 1; transform: translateY(0);}
+@keyframes caer{
+    from{transform:translateY(-10vh);}
+    to{transform:translateY(110vh);}
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(40px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+.corazon{
+    position:absolute;
+    font-size:20px;
+    animation:flotar 2s ease forwards;
+}
+
+@keyframes flotar{
+    from{transform:translateY(0); opacity:1;}
+    to{transform:translateY(-100px); opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
+<div class="app-icon">M&A</div>
+
 <div class="container">
     <h1 id="mensaje">Cargando...</h1>
     <div id="hora"></div>
-    <div id="icono"></div>
-    <div id="clima">Detectando clima...</div>
+    <div id="ciudad"></div>
+    <div id="iconoClima"></div>
+    <div id="clima"></div>
+    <button onclick="toggleMusica()">🎵 Música</button>
 </div>
+
+<audio id="musica" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 
-// Hora en vivo
-function actualizarHora() {
-    const ahora = new Date();
-    document.getElementById("hora").textContent =
-        ahora.toLocaleString();
+// Hora
+function actualizarHora(){
+    document.getElementById("hora").textContent=new Date().toLocaleString();
 }
-setInterval(actualizarHora, 1000);
+setInterval(actualizarHora,1000);
 actualizarHora();
 
-// Obtener ubicación y clima
-if (navigator.geolocation) {
-navigator.geolocation.getCurrentPosition(pos => {
+// Música
+function toggleMusica(){
+    const m=document.getElementById("musica");
+    if(m.paused){m.play();}
+    else{m.pause();}
+}
 
-const lat = pos.coords.latitude;
-const lon = pos.coords.longitude;
+// Corazones al tocar
+document.body.addEventListener("click",e=>{
+    const heart=document.createElement("div");
+    heart.className="corazon";
+    heart.textContent="💗";
+    heart.style.left=e.clientX+"px";
+    heart.style.top=e.clientY+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),2000);
+});
+
+// Clima
+if(navigator.geolocation){
+navigator.geolocation.getCurrentPosition(pos=>{
+
+const lat=pos.coords.latitude;
+const lon=pos.coords.longitude;
 
 fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
-.then(res => res.json())
-.then(data => {
+.then(res=>res.json())
+.then(data=>{
 
-const temp = data.current_weather.temperature;
-const mensaje = document.getElementById("mensaje");
-const clima = document.getElementById("clima");
-const icono = document.getElementById("icono");
+const temp=data.current_weather.temperature;
+const weatherCode=data.current_weather.weathercode;
 
-clima.textContent = `Temperatura actual: ${temp}°C`;
+document.getElementById("clima").textContent=`${temp}°C`;
+document.getElementById("iconoClima").textContent=obtenerIcono(weatherCode);
 
-// Cambiar según temperatura
-if (temp >= 28) {
-    document.body.style.background = "linear-gradient(135deg, #ff9966, #ff5e62)";
-    icono.textContent = "☀️";
-    mensaje.textContent = "Hace calor… pero nada se compara con vos.";
-    crearParticulas("sol");
-}
-else if (temp >= 18) {
-    document.body.style.background = "linear-gradient(135deg, #89f7fe, #66a6ff)";
-    icono.textContent = "🌤️";
-    mensaje.textContent = "Clima perfecto, como estar con vos.";
-    crearParticulas("suave");
-}
-else if (temp >= 10) {
-    document.body.style.background = "linear-gradient(135deg, #cfd9df, #e2ebf0)";
-    icono.textContent = "🌥️";
-    mensaje.textContent = "Aunque esté fresco, vos siempre abrigás.";
-    crearParticulas("suave");
-}
-else {
-    document.body.style.background = "linear-gradient(135deg, #667db6, #0082c8)";
-    icono.textContent = "❄️";
-    mensaje.textContent = "Si hace frío, te abrazo más fuerte.";
-    crearParticulas("nieve");
-}
-
-})
-.catch(() => {
-document.getElementById("clima").textContent = "No se pudo obtener el clima.";
+fetch(`https://geocode.maps.co/reverse?lat=${lat}&lon=${lon}`)
+.then(res=>res.json())
+.then(loc=>{
+if(loc.address.city)
+document.getElementById("ciudad").textContent=loc.address.city;
 });
 
-}, () => {
-document.getElementById("clima").textContent = "Permiso de ubicación no concedido.";
+configurarAmbiente(temp,weatherCode);
+
+});
 });
 }
 
-// Crear partículas
-function crearParticulas(tipo) {
-for (let i = 0; i < 40; i++) {
-    const p = document.createElement("div");
-    p.classList.add("particula");
+// ICONOS
+function obtenerIcono(code){
+if(code<3) return "☀️";
+if(code<50) return "🌤️";
+if(code<70) return "🌧️";
+if(code<80) return "🌨️";
+return "☁️";
+}
 
-    const tamaño = Math.random() * 6 + 4;
-    p.style.width = tamaño + "px";
-    p.style.height = tamaño + "px";
-    p.style.left = Math.random() * 100 + "vw";
-    p.style.animationDuration = (Math.random() * 5 + 5) + "s";
+// MENSAJES Y AMBIENTE
+let mensajes=[];
+function configurarAmbiente(temp,code){
 
-    if (tipo === "sol") {
-        p.style.background = "rgba(255,255,0,0.7)";
-    }
-    else if (tipo === "nieve") {
-        p.style.background = "white";
-    }
-    else {
-        p.style.background = "rgba(255,255,255,0.5)";
-    }
+if(code<3){ // Soleado
+document.body.style.background="linear-gradient(135deg,#ffd3a5,#fd6585)";
+mensajes=[
+"El sol brilla… pero vos brillás más.",
+"Hoy el cielo está alegre, como cuando te veo sonreír.",
+"Si el día está radiante, es porque pensó en vos."
+];
+crearParticulas("sol");
+}
+else if(code<50){ // Nublado
+document.body.style.background="linear-gradient(135deg,#bdc3c7,#2c3e50)";
+mensajes=[
+"Aunque el cielo esté gris, lo nuestro tiene color.",
+"Los días nublados me recuerdan lo profundo que es lo que siento.",
+"Si el mundo se pone oscuro, yo soy tu luz."
+];
+crearParticulas("nube");
+}
+else if(code<70){ // Lluvia
+document.body.style.background="linear-gradient(135deg,#4e73df,#1cc88a)";
+mensajes=[
+"Si llueve, estoy para abrazarte fuerte.",
+"Que la lluvia caiga… yo me quedo cuidándote.",
+"Entre gotas y tormentas, siempre estoy para vos."
+];
+crearParticulas("lluvia");
+}
+else{ // Frío / nieve
+document.body.style.background="linear-gradient(135deg,#a1c4fd,#c2e9fb)";
+mensajes=[
+"Si hace frío, te abrigo con mi amor.",
+"El invierno es más suave si estoy con vos.",
+"Que el frío venga… yo te abrazo más fuerte."
+];
+crearParticulas("nieve");
+}
 
-    document.body.appendChild(p);
+cambiarMensaje();
+setInterval(cambiarMensaje,10000);
+}
+
+function cambiarMensaje(){
+const m=document.getElementById("mensaje");
+m.style.opacity=0;
+setTimeout(()=>{
+m.textContent=mensajes[Math.floor(Math.random()*mensajes.length)];
+m.style.opacity=1;
+},500);
+}
+
+// Partículas
+function crearParticulas(tipo){
+for(let i=0;i<35;i++){
+const p=document.createElement("div");
+p.className="particula";
+p.style.width=Math.random()*6+4+"px";
+p.style.height=p.style.width;
+p.style.left=Math.random()*100+"vw";
+p.style.animationDuration=Math.random()*5+5+"s";
+
+if(tipo==="sol") p.style.background="rgba(255,255,0,0.7)";
+if(tipo==="nube") p.style.background="rgba(255,255,255,0.4)";
+if(tipo==="lluvia") p.style.background="rgba(173,216,230,0.8)";
+if(tipo==="nieve") p.style.background="white";
+
+document.body.appendChild(p);
 }
 }
 
 </script>
-
 </body>
 </html>
+
