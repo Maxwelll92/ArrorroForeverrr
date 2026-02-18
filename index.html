@@ -1,53 +1,118 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Arrorro Foreverrr</title>
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #f5c6ec, #b5d8ff);
-            font-family: Arial, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arrorro Foreverrr</title>
 
-        .card {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 30px 50px;
-            border-radius: 20px;
-            font-size: 28px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            transition: opacity 0.5s ease;
-        }
-    </style>
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f5c6ec, #b5d8ff);
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    background: rgba(255,255,255,0.85);
+    padding: 40px 60px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    animation: fadeIn 1.2s ease;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+#hora {
+    margin-top: 15px;
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+#clima {
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+</style>
 </head>
+
 <body>
 
-    <div class="card" id="mensaje">
-        Cargando...
-    </div>
+<div class="container">
+    <h1 id="mensaje">Cargando...</h1>
+    <div id="hora"></div>
+    <div id="clima">Detectando clima...</div>
+</div>
 
-    <script>
-        const mensajes = [
-            "Todo es mejor si lo comparto con vos.",
-            "Sos mi lugar favorito.",
-            "Me haces feliz todos los días.",
-            "No cambiaría nada si estoy con vos.",
-            "Siempre vos.",
-            "Con vos todo tiene sentido.",
-            "Sos mi casualidad más linda."
-        ];
+<script>
 
-        const mensajeElemento = document.getElementById("mensaje");
+// MENSAJES
+const mensajes = [
+    "Todo es mejor si lo comparto con vos.",
+    "Sos mi lugar favorito.",
+    "Me haces feliz todos los días.",
+    "No cambiaría nada si estoy con vos.",
+    "Siempre vos.",
+    "Con vos todo tiene sentido.",
+    "Sos mi casualidad más linda."
+];
 
-        const mensajeAleatorio = mensajes[Math.floor(Math.random() * mensajes.length)];
+document.getElementById("mensaje").textContent =
+    mensajes[Math.floor(Math.random() * mensajes.length)];
 
-        mensajeElemento.textContent = mensajeAleatorio;
-    </script>
+
+// HORA EN VIVO
+function actualizarHora() {
+    const ahora = new Date();
+    document.getElementById("hora").textContent =
+        ahora.toLocaleString();
+}
+setInterval(actualizarHora, 1000);
+actualizarHora();
+
+
+// CLIMA AUTOMÁTICO
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(posicion => {
+
+        const lat = posicion.coords.latitude;
+        const lon = posicion.coords.longitude;
+
+        fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
+        .then(res => res.json())
+        .then(data => {
+            const temp = data.current_weather.temperature;
+            document.getElementById("clima").textContent =
+                `Temperatura actual: ${temp}°C`;
+        })
+        .catch(() => {
+            document.getElementById("clima").textContent =
+                "No se pudo obtener el clima.";
+        });
+
+    }, () => {
+        document.getElementById("clima").textContent =
+            "Permiso de ubicación no concedido.";
+    });
+} else {
+    document.getElementById("clima").textContent =
+        "Geolocalización no soportada.";
+}
+
+</script>
 
 </body>
 </html>
